@@ -33,7 +33,7 @@ jobs:
         S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }} 
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        aws s3 sync dist/ s3://$S3_BUCKET_NAME --acl public-read --delete --region $AWS_REGION
+        aws s3 sync dist/ s3://$S3_BUCKET_NAME --acl private --delete --region $AWS_REGION
     
     - name: CloudFront invalidate
       uses: chetan/invalidate-cloudfront-action@master
