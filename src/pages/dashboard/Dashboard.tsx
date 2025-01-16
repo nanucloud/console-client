@@ -17,11 +17,17 @@ const ReactGridLayout = WidthProvider(RGL);
 
 const Dashboard: React.FC = () => {
   const { layouts, updateLayouts } = useDashboardStore();
-
-  const [isMobile, setIsMobile] = useState(false);
-  const [mobileLayout, setMobileLayout] = useState<any[]>([]);
+  
+  const [isMobile, setIsMobile] = useState<boolean>(false);  
+  const [mobileLayout, setMobileLayout] = useState<any[]>([]); 
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", checkMobile);
+
     const loadInitialLayout = async () => {
       try {
         const { data } = await fetchLayoutFromBackend();
@@ -33,15 +39,8 @@ const Dashboard: React.FC = () => {
       }
     };
 
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener("resize", checkMobile);
-    checkMobile();
-
     loadInitialLayout();
-
+    checkMobile();
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
@@ -62,7 +61,6 @@ const Dashboard: React.FC = () => {
 
   const handleLayoutChange = async (newLayout: any[]) => {
     if (isMobile) {
-      //모바일은 저장 X
       setMobileLayout(newLayout);
     } else {
       updateLayouts(newLayout);
@@ -76,6 +74,14 @@ const Dashboard: React.FC = () => {
 
   const getCurrentLayout = () => {
     return isMobile ? (mobileLayout.length ? mobileLayout : layouts) : layouts;
+  };
+
+  const getCols = () => {
+    return isMobile ? 1 : 12;
+  };
+
+  const getWidgetWidth = (widget: any) => {
+    return isMobile ? 1 : widget.w; 
   };
 
   return (
@@ -94,7 +100,7 @@ const Dashboard: React.FC = () => {
         className="layout"
         layout={getCurrentLayout()}
         onLayoutChange={handleLayoutChange}
-        cols={isMobile ? 1 : 12}
+        cols={getCols()}
         rowHeight={100}
         containerPadding={[0, 0]}
         margin={[16, 16]}
@@ -103,7 +109,11 @@ const Dashboard: React.FC = () => {
         draggableHandle=".widget-handle"
       >
         {getCurrentLayout().map((layout) => (
-          <div key={layout.i} className="bg-white rounded-lg shadow">
+          <div
+            key={layout.i}
+            className="bg-white rounded-lg shadow"
+            style={{ width: `${getWidgetWidth(layout)}%` }}
+          >
             <div className="widget-handle p-4 border-b border-gray-200 cursor-move">
               <h2 className="text-lg font-semibold">
                 {useDashboardStore.getState().widgets[layout.i].title}
