@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
-import RGL, { WidthProvider } from 'react-grid-layout';
-import { RecentBilling } from '../../components/dashboard/RecentBilling';
-import { DeploymentStatus } from '../../components/dashboard/DeploymentStatus';
-import { MyApplications } from '../../components/dashboard/MyApplication';
-import { useDashboardStore } from '../../store/DashboardStore';
-import { saveLayoutToBackend, fetchLayoutFromBackend } from '../../services/api';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
+import React, { useEffect } from "react";
+import RGL, { WidthProvider } from "react-grid-layout";
+import { RecentBilling } from "../../components/dashboard/RecentBilling";
+import { DeploymentStatus } from "../../components/dashboard/DeploymentStatus";
+import { MyApplications } from "../../components/dashboard/MyApplication";
+import { useDashboardStore } from "../../store/DashboardStore";
+import "react-toastify/dist/ReactToastify.css";
+
+import {
+  saveLayoutToBackend,
+  fetchLayoutFromBackend,
+} from "../../services/api";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+import { RefreshCcw } from "lucide-react";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -22,20 +28,20 @@ const Dashboard: React.FC = () => {
           updateLayouts(data);
         }
       } catch (error) {
-        console.error('레이아웃 로드 실패:', error);
+        console.error("레이아웃 로드 실패:", error);
       }
     };
-    
+
     loadInitialLayout();
   }, [updateLayouts]);
 
   const getWidgetComponent = (widgetId: string) => {
     switch (widgetId) {
-      case 'billing':
+      case "billing":
         return <RecentBilling />;
-      case 'applications':
+      case "applications":
         return <MyApplications />;
-      case 'deployment':
+      case "deployment":
         return <DeploymentStatus />;
       default:
         return null;
@@ -47,7 +53,7 @@ const Dashboard: React.FC = () => {
     try {
       await saveLayoutToBackend(newLayout);
     } catch (error) {
-      console.error('레이아웃 저장 실패:', error);
+      console.error("레이아웃 저장 실패:", error);
     }
   };
 
@@ -57,9 +63,9 @@ const Dashboard: React.FC = () => {
         <h1 className="text-2xl font-bold">대시보드</h1>
         <button
           onClick={() => useDashboardStore.getState().resetToDefault()}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
         >
-          기본 레이아웃으로 초기화
+          <RefreshCcw className="w-6 h-6" />
         </button>
       </div>
 
@@ -82,9 +88,7 @@ const Dashboard: React.FC = () => {
                 {useDashboardStore.getState().widgets[layout.i].title}
               </h2>
             </div>
-            <div className="p-4">
-              {getWidgetComponent(layout.i)}
-            </div>
+            <div className="p-4">{getWidgetComponent(layout.i)}</div>
           </div>
         ))}
       </ReactGridLayout>

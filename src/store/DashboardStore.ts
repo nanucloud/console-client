@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { DashboardState, DashboardLayout } from "../types/Dashboard"
+import { DashboardState, DashboardLayout } from "../types/Dashboard";
+import { toast } from "react-toastify";
 
 interface DashboardStore extends DashboardState {
   updateLayouts: (newLayouts: DashboardLayout[]) => void;
@@ -68,7 +69,10 @@ export const useDashboardStore = create<DashboardStore>()(
         });
         set({ layouts: validatedLayouts });
       },
-      resetToDefault: () => set({ layouts: defaultLayouts }),
+      resetToDefault: () => {
+        toast.success("레이아웃 초기화 완료!");
+        set({ layouts: defaultLayouts });
+      },
     }),
     {
       name: "dashboard-storage",

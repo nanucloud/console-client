@@ -6,9 +6,8 @@ const Header: React.FC = () => {
     <div className="w-full border-b border-gray-200">
       <div className="bg-white text-gray-800">
         <div className="flex items-center justify-between px-4 h-16">
-          {/* Left Section */}
+          {/* L*/}
           <div className="flex items-center space-x-4">
-            <Menu className="h-6 w-6 cursor-pointer hover:text-gray-600" />
             <div className="flex items-center space-x-2 cursor-pointer hover:text-gray-600">
               <img
                 src="https://nanu.cc/NANU_Brand_Logo/NANU_CLOUD_LOGO_FULL.svg"
@@ -18,7 +17,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Middle Section */}
+          {/* M */}
           <div className="flex-1 max-w-2xl mx-8">
             <div className="relative">
               <input
@@ -30,7 +29,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Section */}
+          {/* R */}
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2 cursor-pointer hover:text-gray-600">
               <span>Seoul</span>
