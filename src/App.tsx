@@ -17,7 +17,7 @@ function App() {
         <div className="flex flex-col flex-1">
           <Header />
           <main className="flex-1 overflow-auto bg-gray-100">
-            <div className="max-w-[1000px] mx-auto px-6">
+            <div className="max-w-[1300px] mx-auto px-6">
               <Routes>
                 <Route path="/" element={<Dashboard />} />
               </Routes>
