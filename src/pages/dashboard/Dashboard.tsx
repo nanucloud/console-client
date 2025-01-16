@@ -19,11 +19,11 @@ const Dashboard: React.FC = () => {
   const { layouts, updateLayouts } = useDashboardStore();
   
   const [isMobile, setIsMobile] = useState<boolean>(false);  
-  const [mobileLayout, setMobileLayout] = useState<any[]>([]); 
+  const [mobileLayout, setMobileLayout] = useState<any[]>([]);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 768); 
     };
 
     window.addEventListener("resize", checkMobile);
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
     };
 
     loadInitialLayout();
-    checkMobile();
+    checkMobile();  
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
@@ -73,15 +73,22 @@ const Dashboard: React.FC = () => {
   };
 
   const getCurrentLayout = () => {
-    return isMobile ? (mobileLayout.length ? mobileLayout : layouts) : layouts;
+    if (isMobile) {
+      return layouts.map(layout => ({
+        ...layout,
+        w: 1,
+      }));
+    }
+    return layouts; 
   };
 
+  // 모바일 환경에서 cols 설정
   const getCols = () => {
     return isMobile ? 1 : 12;
   };
 
   const getWidgetWidth = (widget: any) => {
-    return isMobile ? 1 : widget.w; 
+    return isMobile ? 1 : widget.w;  
   };
 
   return (
@@ -98,21 +105,21 @@ const Dashboard: React.FC = () => {
 
       <ReactGridLayout
         className="layout"
-        layout={getCurrentLayout()}
+        layout={getCurrentLayout()}  
         onLayoutChange={handleLayoutChange}
         cols={getCols()}
         rowHeight={100}
         containerPadding={[0, 0]}
         margin={[16, 16]}
         isDraggable={!isMobile}
-        isResizable={!isMobile}
+        isResizable={!isMobile} 
         draggableHandle=".widget-handle"
       >
         {getCurrentLayout().map((layout) => (
           <div
             key={layout.i}
             className="bg-white rounded-lg shadow"
-            style={{ width: `${getWidgetWidth(layout)}%` }}
+            style={{ width: `${getWidgetWidth(layout)}%` }} 
           >
             <div className="widget-handle p-4 border-b border-gray-200 cursor-move">
               <h2 className="text-lg font-semibold">
