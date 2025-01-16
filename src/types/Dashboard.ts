@@ -12,7 +12,7 @@ export interface DashboardLayout {
     layouts: DashboardLayout[];
     widgets: {
       [key: string]: {
-        type: 'billing' | 'applications' | 'deployment';
+        type: 'billing' | 'applications' | 'deployment'| 'announcement';
         title: string;
       };
     };

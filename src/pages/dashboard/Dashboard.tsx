@@ -12,6 +12,7 @@ import {
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { RefreshCcw } from "lucide-react";
+import { AnnouncementStatus } from "../../components/dashboard/AnnouncementStatusCard";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -54,6 +55,8 @@ const Dashboard: React.FC = () => {
         return <MyApplications />;
       case "deployment":
         return <DeploymentStatus />;
+      case "announcement":
+        return <AnnouncementStatus />;
       default:
         return null;
     }
@@ -123,7 +126,7 @@ const Dashboard: React.FC = () => {
           >
             <div className="widget-handle p-4 border-b border-gray-200 cursor-move">
               <h2 className="text-lg font-semibold">
-                {useDashboardStore.getState().widgets[layout.i].title}
+              {useDashboardStore.getState().widgets[layout.i]?.title || 'Unknown Widget. Please Report.,'}
               </h2>
             </div>
             <div className="p-4">{getWidgetComponent(layout.i)}</div>
