@@ -99,8 +99,8 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <DashboardBanner userName="ServiceUserName"/>
+    <div className="mt-5">
+      <DashboardBanner userName="홍길동"/>
       <div className="flex justify-between items-center mb-6 mt-6">
         <h1 className="text-2xl font-bold">대시보드</h1>
         <button
