@@ -38,7 +38,7 @@ const defaultLayouts: DashboardLayout[] = [
     minH: 3,
   },
   {
-    i: "announcement",  // widgets의 "announcement"과 일치
+    i: "announcement",
     x: 6,
     y: 3,
     w: 6,
@@ -46,11 +46,20 @@ const defaultLayouts: DashboardLayout[] = [
     minW: 4,
     minH: 3,
   },
+  {
+    i: "plan",
+    x: 6,
+    y: 4,
+    w: 6,
+    h: 3,
+    minW: 4,
+    minH: 3,
+  },
 ];
 
 const defaultWidgets: {
   [key: string]: {
-    type: "billing" | "applications" | "deployment" | "announcement";
+    type: "billing" | "applications" | "deployment" | "announcement" | "plan";
     title: string;
   };
 } = {
@@ -58,6 +67,7 @@ const defaultWidgets: {
   applications: { type: "applications", title: "나의 애플리케이션" },
   deployment: { type: "deployment", title: "배포 상태" },
   announcement: { type: "announcement", title: "공지사항" },
+  plan: { type: "plan", title: "요금제" },
 };
 
 export const useDashboardStore = create<DashboardStore>()(

@@ -12,7 +12,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`bg-white rounded-lg  ${className}`}>
+    <div className={`bg-white rounded-2xl  ${className}`}>
       {children}
     </div>
   );

@@ -13,18 +13,20 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { RefreshCcw } from "lucide-react";
 import { AnnouncementStatus } from "../../components/dashboard/AnnouncementStatusCard";
+import { CurrentPlanStatus } from "../../components/dashboard/PlanStatusCard";
+import { DashboardBanner } from "../../components/dashboard/TopBannerCard";
 
 const ReactGridLayout = WidthProvider(RGL);
 
 const Dashboard: React.FC = () => {
   const { layouts, updateLayouts } = useDashboardStore();
-  
-  const [isMobile, setIsMobile] = useState<boolean>(false);  
+
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const [mobileLayout, setMobileLayout] = useState<any[]>([]);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768); 
+      setIsMobile(window.innerWidth <= 768);
     };
 
     window.addEventListener("resize", checkMobile);
@@ -41,7 +43,7 @@ const Dashboard: React.FC = () => {
     };
 
     loadInitialLayout();
-    checkMobile();  
+    checkMobile();
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
@@ -57,6 +59,8 @@ const Dashboard: React.FC = () => {
         return <DeploymentStatus />;
       case "announcement":
         return <AnnouncementStatus />;
+      case "plan":
+        return <CurrentPlanStatus />;
       default:
         return null;
     }
@@ -77,12 +81,12 @@ const Dashboard: React.FC = () => {
 
   const getCurrentLayout = () => {
     if (isMobile) {
-      return layouts.map(layout => ({
+      return layouts.map((layout) => ({
         ...layout,
         w: 1,
       }));
     }
-    return layouts; 
+    return layouts;
   };
 
   // 모바일 환경에서 cols 설정
@@ -91,12 +95,13 @@ const Dashboard: React.FC = () => {
   };
 
   const getWidgetWidth = (widget: any) => {
-    return isMobile ? 1 : widget.w;  
+    return isMobile ? 1 : widget.w;
   };
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+      <DashboardBanner userName="ServiceUserName"/>
+      <div className="flex justify-between items-center mb-6 mt-6">
         <h1 className="text-2xl font-bold">대시보드</h1>
         <button
           onClick={() => useDashboardStore.getState().resetToDefault()}
@@ -108,25 +113,26 @@ const Dashboard: React.FC = () => {
 
       <ReactGridLayout
         className="layout"
-        layout={getCurrentLayout()}  
+        layout={getCurrentLayout()}
         onLayoutChange={handleLayoutChange}
         cols={getCols()}
         rowHeight={100}
         containerPadding={[0, 0]}
         margin={[16, 16]}
         isDraggable={!isMobile}
-        isResizable={!isMobile} 
+        isResizable={!isMobile}
         draggableHandle=".widget-handle"
       >
         {getCurrentLayout().map((layout) => (
           <div
             key={layout.i}
             className="bg-white rounded-lg shadow"
-            style={{ width: `${getWidgetWidth(layout)}%` }} 
+            style={{ width: `${getWidgetWidth(layout)}%` }}
           >
             <div className="widget-handle p-4 border-b border-gray-200 cursor-move">
               <h2 className="text-lg font-semibold">
-              {useDashboardStore.getState().widgets[layout.i]?.title || 'Unknown Widget. Please Report.,'}
+                {useDashboardStore.getState().widgets[layout.i]?.title ||
+                  "Unknown Widget. Please Report.,"}
               </h2>
             </div>
             <div className="p-4">{getWidgetComponent(layout.i)}</div>
