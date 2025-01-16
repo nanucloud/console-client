@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { DashboardState, DashboardLayout } from "../types/dashboard";
+import { DashboardState, DashboardLayout } from "../types/Dashboard"
 
 interface DashboardStore extends DashboardState {
   updateLayouts: (newLayouts: DashboardLayout[]) => void;
