@@ -7,7 +7,7 @@ const Header: React.FC = () => {
       <div className="bg-white text-gray-800">
         <div className="flex items-center justify-between px-4 h-16">
           {/* L*/}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 ml-2">
             <div className="flex items-center space-x-2 cursor-pointer hover:text-gray-600">
               <img
                 src="https://nanu.cc/NANU_Brand_Logo/NANU_CLOUD_LOGO_FULL.svg"
