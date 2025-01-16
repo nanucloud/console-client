@@ -1,4 +1,4 @@
-import { DashboardLayout } from '../types/dashboard';
+import { DashboardLayout } from '../types/Dashboard';
 
 // 임시로 로컬 변수에 저장.. 어짜피 퍼블리싱단계
 let localLayoutStorage: DashboardLayout[] | null = null;
