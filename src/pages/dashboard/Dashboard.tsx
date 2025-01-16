@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RGL, { WidthProvider } from "react-grid-layout";
 import { RecentBilling } from "../../components/dashboard/RecentBilling";
 import { DeploymentStatus } from "../../components/dashboard/DeploymentStatus";
 import { MyApplications } from "../../components/dashboard/MyApplication";
 import { useDashboardStore } from "../../store/DashboardStore";
 import "react-toastify/dist/ReactToastify.css";
-
 import {
   saveLayoutToBackend,
   fetchLayoutFromBackend,
@@ -19,8 +18,10 @@ const ReactGridLayout = WidthProvider(RGL);
 const Dashboard: React.FC = () => {
   const { layouts, updateLayouts } = useDashboardStore();
 
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileLayout, setMobileLayout] = useState<any[]>([]);
+
   useEffect(() => {
-    // 초기 레이아웃 로드
     const loadInitialLayout = async () => {
       try {
         const { data } = await fetchLayoutFromBackend();
@@ -32,7 +33,18 @@ const Dashboard: React.FC = () => {
       }
     };
 
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", checkMobile);
+    checkMobile();
+
     loadInitialLayout();
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
   }, [updateLayouts]);
 
   const getWidgetComponent = (widgetId: string) => {
@@ -49,12 +61,21 @@ const Dashboard: React.FC = () => {
   };
 
   const handleLayoutChange = async (newLayout: any[]) => {
-    updateLayouts(newLayout);
-    try {
-      await saveLayoutToBackend(newLayout);
-    } catch (error) {
-      console.error("레이아웃 저장 실패:", error);
+    if (isMobile) {
+      //모바일은 저장 X
+      setMobileLayout(newLayout);
+    } else {
+      updateLayouts(newLayout);
+      try {
+        await saveLayoutToBackend(newLayout);
+      } catch (error) {
+        console.error("레이아웃 저장 실패:", error);
+      }
     }
+  };
+
+  const getCurrentLayout = () => {
+    return isMobile ? (mobileLayout.length ? mobileLayout : layouts) : layouts;
   };
 
   return (
@@ -71,17 +92,17 @@ const Dashboard: React.FC = () => {
 
       <ReactGridLayout
         className="layout"
-        layout={layouts}
+        layout={getCurrentLayout()}
         onLayoutChange={handleLayoutChange}
-        cols={12}
+        cols={isMobile ? 1 : 12}
         rowHeight={100}
         containerPadding={[0, 0]}
         margin={[16, 16]}
-        isDraggable={true}
-        isResizable={true}
+        isDraggable={!isMobile}
+        isResizable={!isMobile}
         draggableHandle=".widget-handle"
       >
-        {layouts.map((layout) => (
+        {getCurrentLayout().map((layout) => (
           <div key={layout.i} className="bg-white rounded-lg shadow">
             <div className="widget-handle p-4 border-b border-gray-200 cursor-move">
               <h2 className="text-lg font-semibold">

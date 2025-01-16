@@ -16,7 +16,7 @@ const defaultLayouts: DashboardLayout[] = [
     y: 0,
     w: 6,
     h: 4,
-    minW: 3,
+    minW: 4,
     minH: 4,
   },
   {
@@ -70,7 +70,7 @@ export const useDashboardStore = create<DashboardStore>()(
         set({ layouts: validatedLayouts });
       },
       resetToDefault: () => {
-        toast.success("레이아웃 초기화 완료!");
+        toast.success("홈 화면의 레이아웃 초기화 완료");
         set({ layouts: defaultLayouts });
       },
     }),
