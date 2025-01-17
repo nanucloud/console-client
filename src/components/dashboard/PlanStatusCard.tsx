@@ -21,7 +21,7 @@ export const CurrentPlanStatus: React.FC = () => {
   return (
     <DashboardCard title="현재 사용 중인 플랜">
       <div className="w-full h-full flex items-center justify-center">
-        <div className="w-full h-full p-6 bg-gray-50 border border-gray-200 rounded-xl shadow-sm flex flex-col justify-between">
+        <div className="w-full h-full p-5 bg-gray-50 border border-gray-200 rounded-xl shadow-sm flex flex-col justify-between">
           <div className="text-center flex justify-center items-center">
             <h3 className="text-2xl font-semibold text-gray-800 mr-2">
               {mockPlan.name}
@@ -53,7 +53,7 @@ export const CurrentPlanStatus: React.FC = () => {
               </li>
             ))}
           </ul>
-          <div className="mt-4 text-base font-medium text-gray-800 border-t border-gray-200 pt-4">
+          <div className="mt-2 text-base font-medium text-gray-800 border-t border-gray-200 pt-2">
             <span className="text-blue-600">다음 지불일: </span>
             <span className="text-blue-600">{mockPlan.nextPaymentDate}</span>
           </div>

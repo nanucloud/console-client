@@ -11,7 +11,7 @@ interface DashboardStore extends DashboardState {
 // 각 위젯별 최소 크기 설정
 const defaultLayouts: DashboardLayout[] = [
   {
-    i: "billing",  // widgets의 "billing"과 일치
+    i: "billing", 
     x: 0,
     y: 0,
     w: 6,
@@ -20,7 +20,7 @@ const defaultLayouts: DashboardLayout[] = [
     minH: 4,
   },
   {
-    i: "applications",  // widgets의 "applications"과 일치
+    i: "applications", 
     x: 6,
     y: 0,
     w: 6,
@@ -29,17 +29,17 @@ const defaultLayouts: DashboardLayout[] = [
     minH: 4,
   },
   {
-    i: "deployment",  // widgets의 "deployment"과 일치
-    x: 0,
-    y: 4,
+    i: "deployment", 
+    x: 6,
+    y: 8,
     w: 6,
-    h: 4,
+    h: 7,
     minW: 4,
     minH: 3,
   },
   {
     i: "announcement",
-    x: 6,
+    x: 0,
     y: 3,
     w: 6,
     h: 4,
@@ -48,7 +48,7 @@ const defaultLayouts: DashboardLayout[] = [
   },
   {
     i: "plan",
-    x: 6,
+    x: 0,
     y: 4,
     w: 6,
     h: 3,
