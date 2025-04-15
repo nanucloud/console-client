@@ -20,7 +20,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (!hasAccessToken) {
     const OAUTH_URI =
-      "https://id.nanu.cc/oauth?app_name=NANU%20Cloud%20Console&auth_scope=[%22EMAIL%22]&redirect_uri=https://console.nanu.cc/oauth/handler&app_id=8223c3f4-3c8c-45c9-99ef-0ccacab41e3f";
+      "https://id.nanu.cc/oauth?app_name=NANU%20Cloud%20Console&auth_scope=[%22EMAIL%22,%22NAME%22]&redirect_uri=https://console.nanu.cc/oauth/handler&app_id=8223c3f4-3c8c-45c9-99ef-0ccacab41e3f";
     window.location.href = OAUTH_URI;
     return null;
   }
