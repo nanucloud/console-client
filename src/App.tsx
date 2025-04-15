@@ -1,23 +1,30 @@
-import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
+import OAuthHandlerPage from "./pages/common/OAuthHandlerPage";
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const hasAccessToken = document.cookie.includes('ACCESS=');
-  
+  const hasAccessToken = localStorage.getItem("NANU_CONSOLE_ACCESS");
+
   if (!hasAccessToken) {
-    const OAUTH_URI = 'https://id.nanu.cc/oauth?app_name=NANU%20Cloud%20Console&auth_scope=[%22EMAIL%22]&redirect_uri=https://donghyun.cc/oauth_handler&app_id=7040dad6-b0ed-4b83-ab13-35535e39822e';
+    const OAUTH_URI =
+      "https://id.nanu.cc/oauth?app_name=NANU%20Cloud%20Console&auth_scope=[%22EMAIL%22]&redirect_uri=https://console.nanu.cc/oauth/handler&app_id=8223c3f4-3c8c-45c9-99ef-0ccacab41e3f";
     window.location.href = OAUTH_URI;
     return null;
   }
-  
+
   return <>{children}</>;
 };
 
@@ -36,13 +43,20 @@ function App() {
           <main className="flex-1 overflow-auto bg-gray-100">
             <div className="max-w-[1300px] mx-auto px-6">
               <Routes>
-                <Route 
-                  path="/" 
+                <Route
+                  path="/"
                   element={
                     <ProtectedRoute>
                       <Dashboard />
                     </ProtectedRoute>
-                  } 
+                  }
+                />
+
+                <Route
+                  path="/oauth/handler"
+                  element={
+                      <OAuthHandlerPage />
+                  }
                 />
               </Routes>
             </div>
